@@ -1,22 +1,16 @@
 "use strict";
-var a = "steam";
-var b = "mates";
 
 function checkWords(word1, word2) {
-    //if we split the word and then sort the letters, if they are an anagram then the sorted letters should match
-    var x = word1.split("").sort().join("");
-    var y = word2.split("").sort().join("");
-    if (x === y) {
-        //the two words match
+    let x = word1.split("").sort().join("");
+    let y = word2.split("").sort().join("");
+    if (x == y) {
         return true;
     } else {
-        //the two words do NOT match
         return false;
     }
 }
 
-function runCheck() {
-    //if checkWords returns true then we know the words are anagrams so we should print a message informing the user that they are anagrams
+function runCheck(a, b) {
     if (checkWords(a, b)) {
         console.log(`${a} and ${b} ARE anagrams`);
     } else {
@@ -24,5 +18,38 @@ function runCheck() {
     }
 }
 
-runCheck();
+function changeLetter(a) {
+    let alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+    let wordArray = a.split("");
+    let newLetter;
+    let oldLetter;
+
+    do {
+        newLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+        oldLetter = wordArray[Math.floor(Math.random() * wordArray.length)];
+    } while (oldLetter == newLetter);
+
+    wordArray[wordArray.indexOf(oldLetter)] = newLetter;
+
+    return wordArray.join("");
+}
+
+function createAnagram(a) {
+    let wordArray = a.split("");
+    let wordLength = wordArray.length;
+    let temp;
+    let randomIndex;
+
+    while (0 != wordLength) {
+        randomIndex = Math.floor(Math.random() * wordLength);
+        wordLength -= 1;
+        temp = wordArray[wordLength];
+        wordArray[wordLength] = wordArray[randomIndex];
+        wordArray[randomIndex] = temp;
+    }
+
+    return wordArray.join("");
+}
+
+runCheck(changeLetter("steam"), createAnagram("mates"));
 
