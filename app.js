@@ -1,25 +1,20 @@
 "use strict";
+let words = require('./words.js');
 
 function checkWords(word1, word2) {
     let x = word1.split("").sort().join("");
     let y = word2.split("").sort().join("");
     if (x == y) {
+        console.log(`${word1} and ${word2} ARE anagrams`);
         return true;
     } else {
+        console.log(`${word1} and ${word2} are NOT anagrams`);
         return false;
     }
 }
 
-function runCheck(a, b) {
-    if (checkWords(a, b)) {
-        console.log(`${a} and ${b} ARE anagrams`);
-    } else {
-        console.log(`${a} and ${b} are NOT anagrams`);
-    }
-}
-
 function changeLetter(a) {
-    let alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     let wordArray = a.split("");
     let newLetter;
     let oldLetter;
@@ -36,20 +31,19 @@ function changeLetter(a) {
 
 function createAnagram(a) {
     let wordArray = a.split("");
-    let wordLength = wordArray.length;
-    let temp;
-    let randomIndex;
+    let anagram = [];
 
-    while (0 != wordLength) {
-        randomIndex = Math.floor(Math.random() * wordLength);
-        wordLength -= 1;
-        temp = wordArray[wordLength];
-        wordArray[wordLength] = wordArray[randomIndex];
-        wordArray[randomIndex] = temp;
-    }
+    do {
+        anagram.push(wordArray.splice(Math.floor(Math.random() * wordArray.length), 1));
+    } while (wordArray.length > 0);
 
-    return wordArray.join("");
+    return anagram.join("");
 }
 
-runCheck(changeLetter("steam"), createAnagram("mates"));
+let word = words.words[Math.floor(Math.random() * words.words.length)];
+let wordAnagram = createAnagram(word);
+if (checkWords(word, wordAnagram)) {
+    let changedLetter = changeLetter(wordAnagram);
+    checkWords(word, changedLetter);
+}
 
