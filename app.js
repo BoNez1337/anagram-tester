@@ -45,23 +45,22 @@ function createAnagram(a) {
 }
 
 function groupWords(arr, key) {
-    let word;
+    let wordToSort;
     let index;
-    let values = [];
-    let result = [];
+    let alreadySorted = [];
+    let groupedWordsArray = [];
 
     for (let i = 0; i < arr.length; i++) {
-        word = arr[i][key];
-        index = values.indexOf(word);
-        if (index > -1)
-            result[index].push(arr[i]);
-        else {
-            values.push(word);
-            result.push([arr[i]]);
+        wordToSort = arr[i][key];
+        index = alreadySorted.indexOf(wordToSort);
+        if (index > -1) {
+            groupedWordsArray[index].push(arr[i]);
+        } else {
+            alreadySorted.push(wordToSort);
+            groupedWordsArray.push([arr[i]]);
         }
     }
-
-    return result.filter(v => v.length > 1);
+    return groupedWordsArray.filter(v => v.length > 1);
 }
 
 let wordsArray = words.words;
