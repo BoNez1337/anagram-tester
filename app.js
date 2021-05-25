@@ -5,10 +5,10 @@ function checkWords(word1, word2) {
     let x = word1.split("").sort().join("");
     let y = word2.split("").sort().join("");
     if (x == y) {
-        console.log(`${word1} and ${word2} ARE anagrams`);
+        // console.log(`${word1} and ${word2} ARE anagrams`);
         return true;
     } else {
-        console.log(`${word1} and ${word2} are NOT anagrams`);
+        // console.log(`${word1} and ${word2} are NOT anagrams`);
         return false;
     }
 }
@@ -40,10 +40,22 @@ function createAnagram(a) {
     return anagram.join("");
 }
 
-let word = words.words[Math.floor(Math.random() * words.words.length)];
-let wordAnagram = createAnagram(word);
-if (checkWords(word, wordAnagram)) {
-    let changedLetter = changeLetter(wordAnagram);
-    checkWords(word, changedLetter);
+let wordsArray = words.words;
+let groups = [];
+for (let i = 0; i < wordsArray.length; i++) {
+    let arr = [];
+    arr.push(wordsArray[i])
+    for(let q = 0; q < wordsArray.length; q++) {
+        if (checkWords(wordsArray[i], wordsArray[q]) && wordsArray[i] != wordsArray[q]) {
+            arr.push(wordsArray[q]);
+            wordsArray.splice(q, 1);
+        }
+    }
+    if (arr.length > 1) {
+        groups.push(arr);
+    }
 }
+
+console.log(groups);
+
 
