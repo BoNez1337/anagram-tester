@@ -13,6 +13,10 @@ function checkWords(word1, word2) {
     }
 }
 
+function sortWord(word) {
+    return word.split("").sort().join("");
+}
+
 function changeLetter(a) {
     let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     let wordArray = a.split("");
@@ -40,22 +44,30 @@ function createAnagram(a) {
     return anagram.join("");
 }
 
+function groupWords(arr, key) {
+    let word;
+    let index;
+    let values = [];
+    let result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        word = arr[i][key];
+        index = values.indexOf(word);
+        if (index > -1)
+            result[index].push(arr[i]);
+        else {
+            values.push(word);
+            result.push([arr[i]]);
+        }
+    }
+
+    return result.filter(v => v.length > 1);
+}
+
 let wordsArray = words.words;
 let groups = [];
 for (let i = 0; i < wordsArray.length; i++) {
-    let arr = [];
-    arr.push(wordsArray[i])
-    for(let q = 0; q < wordsArray.length; q++) {
-        if (checkWords(wordsArray[i], wordsArray[q]) && wordsArray[i] != wordsArray[q]) {
-            arr.push(wordsArray[q]);
-            wordsArray.splice(q, 1);
-        }
-    }
-    if (arr.length > 1) {
-        groups.push(arr);
-    }
+    groups.push({ original: wordsArray[i], anagram: sortWord(wordsArray[i]) });
 }
 
-console.log(groups);
-
-
+console.log(groupWords(groups, 'anagram'));
